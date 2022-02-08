@@ -5,11 +5,12 @@ import com.robertconstantindinescu.imc_cleanarchitecture.R
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.data.repository.ImcRepositoryImpl
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.model.ImcModel
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.model.InvalidDataException
+import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.respository.ImcRepositoryInterface
 import kotlin.jvm.Throws
 
 class AddImcRecord(
     private val application: Application,
-    private val repo: ImcRepositoryImpl
+    private val repo: ImcRepositoryInterface
 ) {
 
     @Throws(InvalidDataException::class)
