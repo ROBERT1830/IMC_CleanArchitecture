@@ -15,6 +15,7 @@ data class ImcModel(
     val peronHeight: Double,
     val timeStamp: Long,
     val result: String,
+    val color: Int,
     @PrimaryKey val id: Int? = null
 ){
     companion object{
