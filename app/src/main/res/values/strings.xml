@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">IMC_CleanArchitecture</string>
+
+<!--    ERRORS-->
+
+    <string name="empty_height">The height must not be empty</string>
+    <string name="empty_weight">The weight must not be empty</string>
+
+
+
 </resources>
