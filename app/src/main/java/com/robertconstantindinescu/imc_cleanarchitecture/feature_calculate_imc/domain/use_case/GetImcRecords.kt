@@ -25,13 +25,13 @@ class GetImcRecords (
                 is AscDescOrder.Descending -> {
                     when(imcOrderType){
                         is ImcOrder.Color -> imcRecords.sortedByDescending { imcModel -> imcModel.color}
-                        is ImcOrder.Date -> imcRecords.sortedByDescending { imcModel -> imcModel.timeStamp }
+                        is ImcOrder.Date -> imcRecords.sortedByDescending { imcModel -> imcModel.date }
                     }
                 }
                 is AscDescOrder.Ascending -> {
                     when(imcOrderType){
                         is ImcOrder.Color -> imcRecords.sortedBy { imcModel -> imcModel.color}
-                        is ImcOrder.Date -> imcRecords.sortedBy { imcModel -> imcModel.timeStamp }
+                        is ImcOrder.Date -> imcRecords.sortedBy { imcModel -> imcModel.date }
                     }
                 }
             }

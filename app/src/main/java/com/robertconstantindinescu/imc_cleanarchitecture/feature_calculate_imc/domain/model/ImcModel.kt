@@ -12,10 +12,12 @@ import java.lang.Exception
 data class ImcModel(
     val name: String,
     val age: String,
+    val gender:String,
     val personWeight: Double,
     val peronHeight: Double,
-    val timeStamp: Long,
-    val result: String,
+    val date: String,
+    val stringResult: String,
+    val numericResult: Double,
     val color: Int,
     @PrimaryKey val id: Int? = null
 ){
@@ -23,6 +25,8 @@ data class ImcModel(
         val colorList = listOf(RedOrange, RedIntense, LightGreen)
     }
 }
+
+
 
 class InvalidDataException(message:String): Exception(message)
 
