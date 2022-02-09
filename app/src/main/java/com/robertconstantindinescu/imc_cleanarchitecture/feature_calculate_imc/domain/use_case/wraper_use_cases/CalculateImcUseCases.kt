@@ -3,11 +3,13 @@ package com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.use_case.AddImcRecord
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.use_case.DeleteImcRecord
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.use_case.GetImcRecords
+import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.use_case.GetSingleImcRecord
 
 data class CalculateImcUseCases(
 
     val getImcRecords: GetImcRecords,
     val addImcRecord: AddImcRecord,
-    val deleteImcRecord: DeleteImcRecord
+    val deleteImcRecord: DeleteImcRecord,
+    val getSingleImcRecord: GetSingleImcRecord
 
 )

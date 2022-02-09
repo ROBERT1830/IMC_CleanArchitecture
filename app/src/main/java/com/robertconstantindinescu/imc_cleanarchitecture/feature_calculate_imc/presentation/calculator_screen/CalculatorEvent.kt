@@ -14,7 +14,7 @@ sealed class CalculatorEvent{
     data class ChangeWeightFocus(val focusState: FocusState): CalculatorEvent()
     data class ChangeHeightFocus(val focusState: FocusState): CalculatorEvent()
 
-    data class ChangeColor(val color: Int): CalculatorEvent()
+    data class ChangeColor(val color: Int, val numericResult:  Double, val gender:Gender): CalculatorEvent()
     object SaveImcRecord: CalculatorEvent()
-    object GenderChange:CalculatorEvent()
+    data class GenderChange(val gender: Gender):CalculatorEvent()
 }

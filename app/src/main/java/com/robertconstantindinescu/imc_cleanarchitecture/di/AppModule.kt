@@ -10,6 +10,7 @@ import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.d
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.use_case.AddImcRecord
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.use_case.DeleteImcRecord
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.use_case.GetImcRecords
+import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.use_case.GetSingleImcRecord
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.use_case.wraper_use_cases.CalculateImcUseCases
 import dagger.Module
 import dagger.Provides
@@ -45,6 +46,7 @@ object AppModule {
             getImcRecords = GetImcRecords(repositoryInterface),
             addImcRecord = AddImcRecord(application = Application(), repo =  repositoryInterface),
             deleteImcRecord = DeleteImcRecord(repositoryInterface),
+            getSingleImcRecord = GetSingleImcRecord(repositoryInterface)
         )
     }
 
