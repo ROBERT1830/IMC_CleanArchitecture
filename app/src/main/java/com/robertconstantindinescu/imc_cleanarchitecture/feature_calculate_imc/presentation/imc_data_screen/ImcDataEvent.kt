@@ -9,7 +9,9 @@ sealed class ImcDataEvent {
     data class DeleteImcRecord(val imcModel: ImcModel):ImcDataEvent()
 
     object ToggleOrderSection: ImcDataEvent()
+    object DeleteDialog: ImcDataEvent()
     object RestoreNote:ImcDataEvent()
+
 
 
 
