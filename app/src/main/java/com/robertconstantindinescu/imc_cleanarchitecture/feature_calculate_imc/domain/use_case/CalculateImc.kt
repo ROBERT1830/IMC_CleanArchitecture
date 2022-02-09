@@ -8,12 +8,15 @@ import kotlin.math.pow
 class CalculateImc {
 
 
-    operator fun invoke(weight: Double, height: Double): Double {
+    companion object{
+        operator fun invoke(weight: Double, height: Double): Double {
 
-        //first calculate the result
-        return height / weight.pow(2.0)
+            //first calculate the result
+            return height / weight.pow(2.0)
 
 
+        }
     }
+
 
 }

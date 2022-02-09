@@ -3,6 +3,7 @@ package com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.
 import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.util.Gender
 import com.robertconstantindinescu.imc_cleanarchitecture.ui.theme.LightGreen
 import com.robertconstantindinescu.imc_cleanarchitecture.ui.theme.RedIntense
 import com.robertconstantindinescu.imc_cleanarchitecture.ui.theme.RedOrange
@@ -11,8 +12,7 @@ import java.lang.Exception
 @Entity(tableName = "imc_table")
 data class ImcModel(
     val name: String,
-    val age: String,
-    val gender:String,
+    val gender:Gender,
     val personWeight: Double,
     val peronHeight: Double,
     val date: String,
@@ -22,7 +22,7 @@ data class ImcModel(
     @PrimaryKey val id: Int? = null
 ){
     companion object{
-        val colorList = listOf(RedOrange, RedIntense, LightGreen)
+        val colorList = listOf(RedIntense, RedOrange, LightGreen)
     }
 }
 
