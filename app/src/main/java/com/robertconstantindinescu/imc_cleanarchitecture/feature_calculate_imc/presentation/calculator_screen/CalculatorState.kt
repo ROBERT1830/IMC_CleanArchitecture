@@ -1,0 +1,3 @@
+package com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.presentation.calculator_screen
+
+sealed class CalculatorState
