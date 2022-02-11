@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.model.ImcModel
+import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.util.Gender
 
 
 @Preview(showBackground = true)
@@ -28,8 +29,7 @@ fun MyImcItemPreview() {
     ImcItem(
         imcModel = ImcModel(
             "Robert",
-            "27",
-            "male",
+            gender = "male",
             72.5,
             179.0,
             "2/2/2022",
@@ -73,10 +73,18 @@ fun ImcItem(
             }
         }
         //no spacer so that the next content will overlap the current box.
+        IconButton(
+            onClick = onDeleteClick,
+            modifier = Modifier.align(Alignment.TopEnd)
+
+        ) {
+            Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete Record")
+        }
+
         Row(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(16.dp)
+                .fillMaxWidth()
         ) {
 
             Column(
@@ -119,7 +127,6 @@ fun ImcItem(
             )
             Spacer(modifier = modifier.height(8.dp))
             Column(
-                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -136,25 +143,6 @@ fun ImcItem(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row {
-                        Text(
-                            text = "Age: ",
-                            color = MaterialTheme.colors.onSurface,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.body2,
-
-                            )
-                        Spacer(modifier = Modifier.width(3.dp))
-                        Text(
-                            text = imcModel.age,
-                            color = MaterialTheme.colors.onSurface,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.body2,
-
-                            )
-                    }
 
                     Row {
 
@@ -201,9 +189,10 @@ fun ImcItem(
                     color = MaterialTheme.colors.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.h5,
+                    style = MaterialTheme.typography.body1,
 
                     )
+                Spacer(modifier = modifier.height(16.dp))
 
 
             }
@@ -211,13 +200,7 @@ fun ImcItem(
 
         }
 
-        IconButton(
-            onClick = onDeleteClick,
-            modifier = Modifier.align(Alignment.BottomEnd)
 
-        ) {
-            Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete Record")
-        }
     }
 
 }

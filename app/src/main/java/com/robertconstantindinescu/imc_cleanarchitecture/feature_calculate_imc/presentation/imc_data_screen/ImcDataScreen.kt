@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.domain.use_case.wraper_use_cases.CalculateImcUseCases
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.presentation.imc_data_screen.components.ImcItem
 import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.presentation.imc_data_screen.components.OrderSection
+import com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.presentation.util.ScreenNavigation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -48,6 +49,8 @@ fun ImcDataScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
+                          navController.navigate(ScreenNavigation.CalculatorScreen.route)
+
 
                 },
                 backgroundColor = MaterialTheme.colors.primaryVariant
@@ -69,60 +72,69 @@ fun ImcDataScreen(
             ) {
                 Text(text = "Your Imc Records", style = MaterialTheme.typography.h4)
 
-                IconButton(onClick = { }
+                IconButton(onClick = {
+
+                    viewModel.onEvent(ImcDataEvent.ToggleOrderSection)
+                }
                 ) {
                     Icon(imageVector = Icons.Default.Sort, contentDescription = "Toggle Icon")
 
                 }
             }
 
-        }
-
-        AnimatedVisibility(
-            visible =  state.isToggleMenuVisible,
-            enter = fadeIn() + slideInVertically(),
-            exit = fadeOut() + slideOutVertically()
-        ) {
-            OrderSection(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                state.orderType,
-                onOrderChange = {
-                    viewModel.onEvent(ImcDataEvent.Order(it))
-                }
-            )
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-        LazyColumn(modifier = Modifier.fillMaxSize()){
-            items(state.imcList){ imcItem ->
-
-                ImcItem(
-                    imcModel = imcItem,
+            AnimatedVisibility(
+                visible =  state.isToggleMenuVisible,
+                enter = fadeIn() + slideInVertically(),
+                exit = fadeOut() + slideOutVertically()
+            ) {
+                OrderSection(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { },
-                    onDeleteClick = {
-                        // TODO: 9/2/22 create te dialgo here.
-                        viewModel.onEvent(ImcDataEvent.DeleteImcRecord(imcItem))
-                        var snackBarResult: SnackbarResult? = null
-                        scope.launch(Dispatchers.Main) {
-                            snackBarResult = scaffoldState.snackbarHostState.showSnackbar(
-                                message = "Imc Record Deleted",
-                                actionLabel = "Undo"
-                            )
-
-                            if (snackBarResult == SnackbarResult.ActionPerformed){
-                                viewModel.onEvent(ImcDataEvent.RestoreNote)
-                            }
-                        }
+                        .padding(vertical = 16.dp),
+                    state.orderType,
+                    onOrderChange = {
+                        viewModel.onEvent(ImcDataEvent.Order(it))
                     }
                 )
-                Spacer(modifier = Modifier.height(10.dp))
-
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            LazyColumn(modifier = Modifier.fillMaxSize()){
+                items(state.imcList){ imcItem ->
+
+                    ImcItem(
+                        imcModel = imcItem,
+                        modifier = Modifier
+                            .clickable {
+                                       navController.navigate(
+                                           ScreenNavigation.CalculatorScreen.route +
+                                                   "?imcId=${imcItem.id}&colorId=${imcItem.color}"
+                                       )
+                            },
+                        onDeleteClick = {
+                            // TODO: 9/2/22 create te dialgo here.
+                            viewModel.onEvent(ImcDataEvent.DeleteImcRecord(imcItem))
+                            var snackBarResult: SnackbarResult? = null
+                            scope.launch(Dispatchers.Main) {
+                                snackBarResult = scaffoldState.snackbarHostState.showSnackbar(
+                                    message = "Imc Record Deleted",
+                                    actionLabel = "Undo"
+                                )
+
+                                if (snackBarResult == SnackbarResult.ActionPerformed){
+                                    viewModel.onEvent(ImcDataEvent.RestoreNote)
+                                }
+                            }
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                }
+            }
+
         }
+
+
 
     }
 }

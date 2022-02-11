@@ -86,7 +86,7 @@ class ImcDataViewModel @Inject constructor( //ww have to use @Inject because the
 
     private fun getNewImcData(imcOrderType: ImcOrder) {
 
-        currentCoroutineJob!!.cancel()
+        currentCoroutineJob?.cancel()
 
         currentCoroutineJob = useCases.getImcRecords(imcOrderType)
             .onEach { imcList ->

@@ -1,4 +1,4 @@
-package com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.presentation.imc_data_screen.components
+package com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.presentation.calculator_screen.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,18 +10,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 
-@Preview(showBackground = true)
 @Composable
-fun Preview() {
-    DefaultRadioButton("Ascending", true, modifier = Modifier)
-}
-
-@Composable
-fun DefaultRadioButton(
+fun DefaultGenderRadioButton(
     text: String,
     selected: Boolean,
     onSelect: () -> Unit = {},

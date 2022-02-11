@@ -1,5 +1,6 @@
 package com.robertconstantindinescu.imc_cleanarchitecture.feature_calculate_imc.presentation.calculator_screen
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
@@ -25,7 +26,7 @@ import javax.inject.Inject
 class CalculatorViewModel @Inject constructor(
     private val useCases: CalculateImcUseCases,
     savedStateHandle: SavedStateHandle //when you reach the screen that has this viewmodel instanciated, we can use this class to acces all parameters that has been passed
-): ViewModel() {
+) : ViewModel() {
 
     /*****************STATES*******************/
     //we will have one state for each field
@@ -46,7 +47,7 @@ class CalculatorViewModel @Inject constructor(
 
     private val _heightState = mutableStateOf<CalculatorTextFieldState>(
         CalculatorTextFieldState(
-            hintText = "Enter your weight..."
+            hintText = "Enter your height..."
         )
     )
     val heightState: State<CalculatorTextFieldState> = _heightState
@@ -74,11 +75,12 @@ class CalculatorViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<SingleUiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    sealed class SingleUiEvent{
-        data class ShowSnackbar(val message:String): SingleUiEvent()
-        object SaveNote: SingleUiEvent()
+    sealed class SingleUiEvent {
+        data class ShowSnackbar(val message: String) : SingleUiEvent()
+        object SaveNote : SingleUiEvent()
 
     }
+
     /********************OTHERS*********************/
     private var imcCalculated: Double? = null
 
@@ -87,8 +89,8 @@ class CalculatorViewModel @Inject constructor(
 
     init {
         savedStateHandle.get<Int>("imcId")?.let { imcId ->
-            if (imcId != -1){
-                viewModelScope.launch(Dispatchers.IO) {
+            if (imcId != -1) {
+                viewModelScope.launch {
                     useCases.getSingleImcRecord(imcId)?.also { imcModel ->
                         currentId = imcModel.id
 
@@ -101,9 +103,11 @@ class CalculatorViewModel @Inject constructor(
                             isHintVisible = false
                         )
                         _heightState.value = heightState.value.copy(
-                            text = imcModel.peronHeight.toString()
+                            text = imcModel.peronHeight.toString(),
+                            isHintVisible = false
                         )
-                        _genderState.value = imcModel.gender
+                        _genderState.value =
+                            if (imcModel.gender == "male") Gender.Male else Gender.Female
 
                         _colorState.value = imcModel.color
                     }
@@ -113,29 +117,104 @@ class CalculatorViewModel @Inject constructor(
     }
 
 
+    fun onEvent(event: CalculatorEvent) {
 
-    fun onEvent(event:CalculatorEvent){
-
-        when(event){
+        when (event) {
             is CalculatorEvent.CalculateImc -> {
                 imcCalculated = CalculateImc.invoke(event.weight, event.height)
-            }
-            is CalculatorEvent.ChangeColor -> {
-                when(event.gender){
+
+                _numericResult.value = numericResult.value.copy(
+                    text = String.format("%.3f", imcCalculated)
+                )
+
+
+                when (event.gender) {
                     Gender.Female -> {
-                        when{
-                            event.numericResult < 18.5 -> {_colorState.value = ImcModel.colorList[0].toArgb()}
-                            event.numericResult in 18.5..23.9 -> {_colorState.value = ImcModel.colorList[2].toArgb()}
-                            event.numericResult in 24.0..28.9 -> {_colorState.value = ImcModel.colorList[1].toArgb()}
-                            event.numericResult > 29.0 -> {_colorState.value = ImcModel.colorList[1].toArgb()}
+                        when {
+                            imcCalculated!! < 18.5 -> {
+                                _stringResultState.value = stringResultState.value.copy(
+                                    text = "Inferior al peso normal"
+                                )
+                            }
+                            imcCalculated!! in 18.5..23.9 -> {
+                                _stringResultState.value = stringResultState.value.copy(
+                                    text = "Peso normal"
+                                )
+                            }
+                            imcCalculated!! in 24.0..28.9 -> {
+                                _stringResultState.value = stringResultState.value.copy(
+                                    text = "Sobrepeso"
+                                )
+                            }
+                            imcCalculated!! > 29.0 -> {
+                                _stringResultState.value = stringResultState.value.copy(
+                                    text = "Obesidad"
+                                )
+                            }
                         }
                     }
                     Gender.Male -> {
-                        when{
-                            event.numericResult < 18.5 -> {_colorState.value = ImcModel.colorList[0].toArgb()}
-                            event.numericResult in 18.5..24.9 -> {_colorState.value = ImcModel.colorList[2].toArgb()}
-                            event.numericResult in 25.0..28.9 -> {_colorState.value = ImcModel.colorList[1].toArgb()}
-                            event.numericResult > 30.0 -> {_colorState.value = ImcModel.colorList[1].toArgb()}
+                        when {
+                            imcCalculated!! < 18.5 -> {
+                                _stringResultState.value = stringResultState.value.copy(
+                                    text = "Inferior al peso normal"
+                                )
+                            }
+                            imcCalculated!! in 18.5..24.9 -> {
+                                _stringResultState.value = stringResultState.value.copy(
+                                    text = "Peso normal"
+                                )
+                            }
+                            imcCalculated!! in 25.0..28.9 -> {
+                                _stringResultState.value = stringResultState.value.copy(
+                                    text = "Sobrepeso"
+                                )
+                            }
+                            imcCalculated!! > 30.0 -> {
+                                _stringResultState.value = stringResultState.value.copy(
+                                    text = "Obesidad"
+                                )
+                            }
+                        }
+                    }
+                }
+
+
+            }
+            is CalculatorEvent.ChangeColor -> {
+
+                when (event.gender) {
+
+                    Gender.Female -> {
+                        when {
+                            event.numericResult < 18.5 -> {
+                                _colorState.value = ImcModel.colorList[0].toArgb()
+                            }
+                            event.numericResult in 18.5..23.9 -> {
+                                _colorState.value = ImcModel.colorList[2].toArgb()
+                            }
+                            event.numericResult in 24.0..28.9 -> {
+                                _colorState.value = ImcModel.colorList[1].toArgb()
+                            }
+                            event.numericResult > 29.0 -> {
+                                _colorState.value = ImcModel.colorList[0].toArgb()
+                            }
+                        }
+                    }
+                    Gender.Male -> {
+                        when {
+                            event.numericResult < 18.5 -> {
+                                _colorState.value = ImcModel.colorList[0].toArgb()
+                            }
+                            event.numericResult in 18.5..24.9 -> {
+                                _colorState.value = ImcModel.colorList[2].toArgb()
+                            }
+                            event.numericResult in 25.0..28.9 -> {
+                                _colorState.value = ImcModel.colorList[1].toArgb()
+                            }
+                            event.numericResult > 30.0 -> {
+                                _colorState.value = ImcModel.colorList[1].toArgb()
+                            }
                         }
                     }
                 }
@@ -174,33 +253,49 @@ class CalculatorViewModel @Inject constructor(
             }
             is CalculatorEvent.GenderChange -> {
                 _genderState.value = event.gender
+                Log.d("onEventGender", genderState.value.toString())
             }
             CalculatorEvent.SaveImcRecord -> {
-                viewModelScope.launch(Dispatchers.IO) {
-
-                    try {
-                        useCases.addImcRecord(
-                            ImcModel(
-                                name = nameState.value.text,
-                                gender = genderState.value,
-                                peronHeight = heightState.value.text.toDouble(),
-                                personWeight = weightState.value.text.toDouble(),
-                                date = getDate(),
-                                stringResult = stringResultState.value.text,
-                                numericResult = numericResult.value.text.toDouble(),
-                                color = colorState.value,
-                                id = currentId
-
-                            )
-                        )
-                        _eventFlow.emit(SingleUiEvent.SaveNote)
-
-                    }catch (e: InvalidDataException){
-                        _eventFlow.emit(SingleUiEvent.ShowSnackbar(message = e.message?:"Couldn't save result"))
-                    }
-
-                }
+                saveImcRecord()
             }
+        }
+    }
+
+    private fun saveImcRecord() {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            try {
+                useCases.addImcRecord(
+                    ImcModel(
+                        name = nameState.value.text,
+                        gender = when (genderState.value) {
+                            is Gender.Male -> {
+                                "male"
+                            }
+                            is Gender.Female -> {
+                                "female"
+                            }
+                        },
+                        peronHeight = if(heightState.value.text.isNotBlank()) heightState.value.text.toDouble() else 0.0,
+                        personWeight = if( weightState.value.text.isNotBlank()) weightState.value.text.toDouble() else 0.0,
+                        date = getDate(),
+                        stringResult = stringResultState.value.text,
+                        numericResult = if(numericResult.value.text.isNotBlank()) numericResult.value.text.toDouble() else 0.0,
+                        color = colorState.value,
+                        id = currentId
+
+                    )
+                )
+                _eventFlow.emit(SingleUiEvent.SaveNote)
+
+            } catch (e: InvalidDataException) {
+                _eventFlow.emit(
+                    SingleUiEvent.ShowSnackbar(
+                        message = e.message ?: "Couldn't save result"
+                    )
+                )
+            }
+
         }
     }
 

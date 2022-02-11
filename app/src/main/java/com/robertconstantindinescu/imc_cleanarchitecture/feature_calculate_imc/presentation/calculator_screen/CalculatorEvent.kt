@@ -8,7 +8,7 @@ sealed class CalculatorEvent{
     data class EnterWeight(val value:String): CalculatorEvent()
     data class EnterHeight(val value:String): CalculatorEvent()
     //data class GetResult(val value:String): CalculatorEvent()  --> I don't think that this could be an event because the user doesn't interact with that field
-    data class CalculateImc(val weight:Double, val height:Double):CalculatorEvent()
+    data class CalculateImc(val weight:Double, val height:Double, val gender: Gender):CalculatorEvent()
 
     data class ChangeNameFocus(val focusState: FocusState): CalculatorEvent()
     data class ChangeWeightFocus(val focusState: FocusState): CalculatorEvent()

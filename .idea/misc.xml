@@ -6,10 +6,25 @@
         <entry key="../../../../../../../layout/compose-model-1644396236978.xml" value="1.0" />
         <entry key="../../../../../../../layout/compose-model-1644397487417.xml" value="0.28055555555555556" />
         <entry key="../../../../../../../layout/compose-model-1644400103309.xml" value="0.375" />
+        <entry key="../../../../../../../layout/compose-model-1644428767193.xml" value="0.25925925925925924" />
+        <entry key="../../../../../../../layout/compose-model-1644428966528.xml" value="1.0" />
+        <entry key="../../../../../../../layout/compose-model-1644430018667.xml" value="0.335" />
+        <entry key="../../../../../../../layout/compose-model-1644472808258.xml" value="0.32407407407407407" />
+        <entry key="../../../../../../../layout/compose-model-1644472857236.xml" value="0.5" />
+        <entry key="../../../../../../../layout/compose-model-1644475984920.xml" value="0.4166666666666667" />
+        <entry key="../../../../../../../layout/compose-model-1644496087328.xml" value="0.1" />
+        <entry key="../../../../../../../layout/compose-model-1644497413419.xml" value="0.1" />
+        <entry key="../../../../../../../layout/compose-model-1644497797167.xml" value="0.375" />
+        <entry key="../../../../../../../layout/compose-model-1644567387998.xml" value="0.19444444444444445" />
+        <entry key="../../../../../../../layout/compose-model-1644571550817.xml" value="0.25" />
+        <entry key="../../../../../../../layout/compose-model-1644573204956.xml" value="0.23148148148148148" />
+        <entry key="../../../../../../../layout/compose-model-1644574710416.xml" value="0.2222222222222222" />
+        <entry key="../../../../../../../layout/compose-model-1644574720878.xml" value="0.7741935483870968" />
+        <entry key="../../../../../../../layout/compose-model-1644578514687.xml" value="0.375" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
