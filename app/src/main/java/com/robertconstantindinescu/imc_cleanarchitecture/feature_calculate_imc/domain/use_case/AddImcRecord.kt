@@ -16,12 +16,22 @@ class AddImcRecord(
     @Throws(InvalidDataException::class)
     suspend operator fun invoke(imcModel: ImcModel){
 
-        if (imcModel.peronHeight.toString().isBlank()){
-            throw InvalidDataException(application.resources.getString(R.string.empty_height))
+        if(imcModel.name.isBlank()){
+            throw InvalidDataException("The name must not be empty")
         }
-        if (imcModel.personWeight.toString().isBlank()){
-            throw InvalidDataException(application.resources.getString(R.string.empty_weight))
+
+        if (imcModel.personWeight == 0.0){
+            throw InvalidDataException("The weight must not be empty")
         }
+
+        if (imcModel.peronHeight == 0.0){
+            throw InvalidDataException("The height must not be empty")
+        }
+
+        if (imcModel.numericResult == 0.0 || imcModel.stringResult.isBlank()){
+            throw InvalidDataException("First you need to calculate you imc")
+        }
+
 
         repo.insertImcRecord(imcModel)
     }

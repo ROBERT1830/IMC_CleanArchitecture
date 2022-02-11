@@ -11,6 +11,6 @@ data class CalculatorTextFieldState(
 //    val numericResult: String = "",
     val hintText:String = "",
     //val gender: Gender = Gender.Female,
-    val isHintVisible: Boolean? = false,
+    val isHintVisible: Boolean = false,
     //val isDialogVisible: Boolean? = false
 )

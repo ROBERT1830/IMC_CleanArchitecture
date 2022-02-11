@@ -12,7 +12,7 @@ import java.lang.Exception
 @Entity(tableName = "imc_table")
 data class ImcModel(
     val name: String,
-    val gender:Gender,
+    val gender:String,
     val personWeight: Double,
     val peronHeight: Double,
     val date: String,

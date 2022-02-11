@@ -12,7 +12,7 @@ class CalculateImc {
         operator fun invoke(weight: Double, height: Double): Double {
 
             //first calculate the result
-            return height / weight.pow(2.0)
+            return weight / height.pow(2.0)
 
 
         }
